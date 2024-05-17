@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common';
 import { DataRequest } from '../../src/interfaces/request.interface';
 import { UserService } from './user.service';
-import { request } from 'http';
+//import { request } from 'http';
 //import { request } from 'http';
 //import { JwtAuthdGuard } from 'src/auth/auth-guard/jwt-auth.guard';
 
@@ -99,10 +99,9 @@ export class UserController {
 
   //@UseGuards(JwtAuthdGuard)
   @Delete(':id_user')
-  async deleteUser(@Param('id_user') id_user: number,  @Body()
-  request: DataRequest,): Promise<any> {
+  async deleteUser(@Param('id_user') id_user: number): Promise<any> {
     try {
-      const deletedUser = await this.userService.DeleteUser(id_user, request);
+      const deletedUser = await this.userService.DeleteUser(id_user);
       if (!deletedUser) {
         throw new HttpException('User not found', HttpStatus.NOT_FOUND);
       }

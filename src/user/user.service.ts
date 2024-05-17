@@ -43,9 +43,9 @@ export class UserService {
     }
   }
 
-  async DeleteUser(id_user: number, request: DataRequest): Promise<any> {
+  async DeleteUser(id_user: number): Promise<any> {
     try {
-      const data = await this.userRepo.deleteUser(id_user, request);
+      const data = await this.userRepo.deleteUser(id_user);
       if (!data) {
         throw new Error('Usuário não localizado!!!=========');
       }
@@ -56,7 +56,7 @@ export class UserService {
     }
   }
 
-  async CreateUser( request: DataRequest): Promise<any> {
+  async CreateUser(request: DataRequest): Promise<any> {
     try {
       const data = await this.userRepo.createUser(request);
       // if () {
