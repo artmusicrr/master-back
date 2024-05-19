@@ -5,12 +5,15 @@ export interface DataRequest {
   name: string;
   id_user: number;
   email: string;
-  //cpf: string;
   registration_date: string;
   update_date: string;
-  //active: boolean;
   db: any;
   client: Client;
   body: any;
-  //newPassword: string;
+}
+
+export interface UpdateUserRequest extends DataRequest {
+  name: string;
+  email: string;
+  password: string;
 }

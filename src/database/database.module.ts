@@ -9,7 +9,7 @@ import { Pool } from 'pg';
       useFactory: () => {
         return new Pool({
           host: process.env.POSTGRES_HOST_LOCAL,
-          port: parseInt(process.env.POSTGRES_PORT),
+          port: parseInt(process.env.POSTGRES_PORT, 10),
           user: process.env.POSTGRES_USER,
           password: process.env.POSTGRES_PASSWORD,
           database: process.env.POSTGRES_DB,
@@ -19,6 +19,4 @@ import { Pool } from 'pg';
   ],
   exports: ['PG_POOL'],
 })
-export class DatabaseModule {
-  static PG_POOL = 'PG_POOL';
-}
+export class DatabaseModule {}

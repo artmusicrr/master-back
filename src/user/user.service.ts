@@ -1,70 +1,64 @@
-import { Injectable, Inject, HttpException, HttpStatus } from '@nestjs/common';
-import { DatabaseModule } from '../database/database.module';
-import { DataRequest } from '../interfaces/request.interface';
-import { Client } from 'pg';
+import {
+  Injectable,
+  Inject,
+  HttpException,
+  HttpStatus,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { UserRepository } from './entities/user.entities';
+import { Pool } from 'pg';
+import { CreateUserDto, UpdateUserDto } from './entities/user.dto';
 
 @Injectable()
 export class UserService {
-  request: any;
-  userEntity: any;
-  userRepo: UserRepository;
   constructor(
-    @Inject(DatabaseModule.PG_POOL)
-    private readonly db: Client,
-  ) {
-    this.userRepo = new UserRepository(db);
-  }
+    @Inject('PG_POOL') private readonly db: Pool,
+    private readonly userRepository: UserRepository,
+  ) {}
 
-  async findUser(): Promise<any> {
-    try {
-      const data = await this.userRepo.findAllUsers();
-      console.log('service =====>', data);
-      if (!data) {
-        throw new Error('Usuário não localizado!!!=========');
-      }
-      return data;
-    } catch (error) {
-      console.log(error);
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+  async createUser(createUserDto: CreateUserDto): Promise<void> {
+    const user = await this.userRepository.findUserByEmail(createUserDto.email);
+    if (user) {
+      throw new BadRequestException('E-mail já está em uso');
     }
+    await this.userRepository.createUser(createUserDto);
   }
 
-  async UpdateUser(id_user: number, request: DataRequest): Promise<any> {
+  async findAllUsers(): Promise<any[]> {
+    const users = await this.userRepository.findAllUsers();
+    if (!users.length) {
+      throw new NotFoundException('No users found');
+    }
+    return users;
+  }
+
+  async updateUser(
+    id_user: number,
+    updateUserDto: UpdateUserDto,
+  ): Promise<any> {
     try {
-      const data = await this.userRepo.updateById(id_user, request);
-      if (!data) {
-        throw new Error('Usuário não localizado!!!=========');
+      const updatedUser = await this.userRepository.updateById(
+        id_user,
+        updateUserDto,
+      );
+      if (!updatedUser) {
+        throw new NotFoundException('Usuário não localizado!');
       }
-      return data;
+      return updatedUser;
     } catch (error) {
-      console.log(error);
-      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+      throw new NotFoundException('Usuário não localizado!');
     }
   }
 
   async DeleteUser(id_user: number): Promise<any> {
     try {
-      const data = await this.userRepo.deleteUser(id_user);
-      if (!data) {
-        throw new Error('Usuário não localizado!!!=========');
+      const user = await this.userRepository.deleteUser(id_user);
+      if (!user) {
+        throw new Error('Usuário não localizado!');
       }
-      return data;
+      return user;
     } catch (error) {
-      console.log(error);
-      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-  }
-
-  async CreateUser(request: DataRequest): Promise<any> {
-    try {
-      const data = await this.userRepo.createUser(request);
-      // if () {
-      //   throw new Error('Usuário não localizado!!!=========');
-      // }
-      return data;
-    } catch (error) {
-      console.log(error);
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
