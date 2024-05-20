@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { Pool } from 'pg';
 
 import * as bcrypt from 'bcrypt';
@@ -49,6 +49,19 @@ export class UserRepository {
       return result.rows[0];
     } catch (error) {
       console.log(error);
+    }
+  }
+
+  async findByName(name: string): Promise<any> {
+    try {
+      const query = `
+      SELECT * FROM public.users where name = '${name}';`;
+      //const values = [name_user];
+      const result = await this.db.query(query);
+      console.log('======', result);
+      return result.rows[0];
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
 }

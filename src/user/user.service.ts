@@ -62,4 +62,22 @@ export class UserService {
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
+
+  async findOneByEmail(name: string): Promise<any> {
+    const user = await this.userRepository.findUserByEmail(name);
+    if (!user) {
+      throw new NotFoundException('Usuário não localizado!');
+    }
+    return user;
+  }
+
+  async getUserByUsername(name: string): Promise<any> {
+    try {
+      const data = await this.userRepository.findByName(name);
+      console.log('xxxxxx', name, data);
+      return data;
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
 }
