@@ -37,7 +37,7 @@ export class UserController {
       throw new BadRequestException(error.message);
     }
   }
-
+  @UseGuards(JwtAuthdGuard)
   @Get()
   async findAllUsers() {
     try {
@@ -49,6 +49,7 @@ export class UserController {
     }
   }
 
+  @UseGuards(JwtAuthdGuard)
   @Patch(':id_user')
   @UsePipes(new ValidationPipe({ whitelist: true }))
   async updateUser(
@@ -66,6 +67,7 @@ export class UserController {
     }
   }
 
+  @UseGuards(JwtAuthdGuard)
   @Delete(':id_user')
   async deleteUser(@Param('id_user') id_user: number): Promise<any> {
     try {
