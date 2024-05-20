@@ -1,9 +1,9 @@
-import { name } from './../../node_modules/ci-info/index.d';
 import {
   BadRequestException,
   NotFoundException,
   ValidationPipe,
   UsePipes,
+  UseGuards,
   Body,
   Controller,
   Delete,
@@ -13,14 +13,14 @@ import {
   Post,
 } from '@nestjs/common';
 import { CreateUserDto, UpdateUserDto } from './entities/user.dto';
-import { DataRequest } from '../../src/interfaces/request.interface';
 import { UserService } from './user.service';
-import { request } from 'http';
+import { JwtAuthdGuard } from 'src/auth/auth-guard/jwt-auth.guard';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  @UseGuards(JwtAuthdGuard)
   @Post('/create-user')
   @UsePipes(new ValidationPipe({ whitelist: true }))
   async createUser(@Body() request: CreateUserDto): Promise<any> {
