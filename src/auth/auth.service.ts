@@ -118,6 +118,7 @@ export class AuthService {
       await transporter.sendMail(mailOptions);
     } catch (error) {
       console.error('Erro ao enviar e-mail:', error);
+      console.log(mailOptions)
     }
   }
 }
