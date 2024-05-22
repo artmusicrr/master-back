@@ -38,3 +38,12 @@ export class UpdateUserDto {
   @MinLength(8, { message: 'Senha deve ter pelo menos 8 caracteres' })
   password?: string;
 }
+
+export class ResetPasswordDto {
+  email: string;
+}
+
+export class ConfirmResetPasswordDto {
+  token: string;
+  password: string;
+}

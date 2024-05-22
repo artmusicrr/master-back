@@ -63,20 +63,65 @@ export class UserService {
     }
   }
 
-  async findOneByEmail(name: string): Promise<any> {
-    const user = await this.userRepository.findUserByEmail(name);
-    if (!user) {
-      throw new NotFoundException('Usuário não localizado!');
-    }
-    return user;
-  }
-
   async getUserByUsername(name: string): Promise<any> {
     try {
       const data = await this.userRepository.findByName(name);
-      console.log('xxxxxx', name, data);
+      if (!data) {
+        throw new Error('Usuário não localizado');
+      }
       return data;
     } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  async getByLogin(name: string): Promise<any> {
+    try {
+      const data = await this.userRepository.findUserLogin(name);
+      if (!data) {
+        throw new Error('Usuário não localizado');
+      }
+      return data;
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  async saveByResetToken(
+    id_user: string,
+    resetToken: string,
+    expirationDate: Date,
+  ): Promise<void> {
+    try {
+      await this.userRepository.saveResetToken(
+        id_user,
+        resetToken,
+        expirationDate,
+      );
+    } catch (error) {
+      throw new HttpException(
+        'Erro ao salvar o token de redefinição',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+  async findUserLogin(name: string): Promise<any> {
+    try {
+      const query = `
+       SELECT id_user, name, email, password,  registration_date, active
+       FROM public.users
+       WHERE name = $1;`;
+      const result = await this.db.query(query, [name]);
+      return result.rows[0];
+    } catch (error) {
+      throw new Error('Erro ao executar a consulta');
+    }
+  }
+  async updateUserPassword(token: string, password: string): Promise<void> {
+    try {
+      await this.userRepository.updateUserPassword(token, password);
+    } catch (error) {
+      console.error('Erro ao atualizar a senha:', error);
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }

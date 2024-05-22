@@ -11,6 +11,8 @@ import {
   Param,
   Patch,
   Post,
+  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { CreateUserDto, UpdateUserDto } from './entities/user.dto';
 import { UserService } from './user.service';
@@ -20,7 +22,7 @@ import { JwtAuthdGuard } from 'src/auth/auth-guard/jwt-auth.guard';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @UseGuards(JwtAuthdGuard)
+  // @UseGuards(JwtAuthdGuard)
   @Post('/create-user')
   @UsePipes(new ValidationPipe({ whitelist: true }))
   async createUser(@Body() request: CreateUserDto): Promise<any> {
@@ -74,10 +76,33 @@ export class UserController {
       const deletedUser = await this.userService.DeleteUser(id_user);
       return {
         message: `User ${deletedUser.name} deleted successfully`,
-        //user: deletedUser,
+        user: deletedUser,
       };
     } catch (error) {
       throw new NotFoundException(error.message);
     }
   }
+
+  @Post('/update-password')
+  async updateUserPassword(
+    @Body() request: { reset_token: string; password: string },
+  ): Promise<any> {
+    try {
+      const { reset_token, password } = request;
+      await this.userService.updateUserPassword(reset_token, password);
+
+      return { message: 'Password updated successfully' };
+    } catch (error) {
+      if (error instanceof HttpException) {
+        throw error;
+      } else {
+        throw new HttpException(
+          'Erro ao atualizar a senha',
+          HttpStatus.INTERNAL_SERVER_ERROR,
+        );
+      }
+    }
+  }
+
+  // }
 }

@@ -56,12 +56,83 @@ export class UserRepository {
     try {
       const query = `
       SELECT * FROM public.users where name = '${name}';`;
-      //const values = [name_user];
       const result = await this.db.query(query);
-      console.log('======', result);
       return result.rows[0];
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
+  }
+
+  async saveResetToken(
+    id_user: string,
+    resetToken: string,
+    expirationDate: Date,
+  ): Promise<void> {
+    try {
+      const query = `
+        UPDATE public.users
+        SET reset_token = $1, reset_token_expiration = $2
+        WHERE id_user = $3;`;
+      const values = [resetToken, expirationDate, id_user];
+      await this.db.query(query, values);
+    } catch (error) {
+      throw new HttpException(
+        'Erro ao salvar o token de redefinição',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+  async findUserLogin(name: string): Promise<any> {
+    try {
+      const query = `
+       SELECT id_user, name, email, password,  registration_date, flag_active
+       FROM public.users
+       WHERE name = $1;`;
+      const result = await this.db.query(query, [name]);
+      // console.log('======', result);
+      return result.rows[0];
+    } catch (error) {
+      throw new Error('Erro ao executar a consulta');
+    }
+  }
+
+  async updateUserPassword(
+    reset_token: string,
+    password: string,
+  ): Promise<any> {
+    try {
+      const queryCheckToken = `
+      SELECT * FROM public.users
+      WHERE reset_token = $1;`;
+      const result = await this.db.query(queryCheckToken, [reset_token]);
+      if (result.rowCount === 0) {
+        throw new HttpException('Token não encontrado', HttpStatus.NOT_FOUND);
+      }
+
+      const hashedPassword = bcrypt.hashSync(password, 8);
+
+      const queryUpdatePassword = `
+      UPDATE public.users
+      SET password = $2
+      WHERE reset_token = $1;`;
+      const values = [reset_token, hashedPassword];
+      const data = await this.db.query(queryUpdatePassword, values);
+      if (data.rowCount === 0) {
+        throw new HttpException('Token não encontrado', HttpStatus.NOT_FOUND);
+      }
+
+      const queryResetToken = `
+      UPDATE public.users
+      SET reset_token = null
+      WHERE reset_token = $1;`;
+      await this.db.query(queryResetToken, [reset_token]);
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+  async findUserByResetToken(token: string): Promise<any> {
+    const query = 'SELECT * FROM public.users WHERE reset_token = $1';
+    const result = await this.db.query(query, [token]);
+    return result.rows[0];
   }
 }
