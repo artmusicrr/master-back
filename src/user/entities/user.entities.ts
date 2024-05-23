@@ -109,6 +109,15 @@ export class UserRepository {
         throw new HttpException('Token não encontrado', HttpStatus.NOT_FOUND);
       }
 
+      const { reset_token_expiration } = result.rows[0];
+      const tokenExpirationDate = new Date(reset_token_expiration);
+      const now = new Date();
+
+      const diffInMinutes =
+        (now.getTime() - tokenExpirationDate.getTime()) / 1000 / 24; // 120000/24 = 5 minutos
+      if (diffInMinutes > 2) {
+        throw new HttpException('Token expirado', HttpStatus.BAD_REQUEST);
+      }
       const hashedPassword = bcrypt.hashSync(password, 8);
 
       const queryUpdatePassword = `

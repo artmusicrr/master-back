@@ -117,9 +117,17 @@ export class UserService {
       throw new Error('Erro ao executar a consulta');
     }
   }
-  async updateUserPassword(token: string, password: string): Promise<void> {
+  async updateUserPassword(
+    token: string,
+    password: string,
+    //expire_token: Date,
+  ): Promise<void> {
     try {
-      await this.userRepository.updateUserPassword(token, password);
+      await this.userRepository.updateUserPassword(
+        token,
+        password,
+        //expire_token,
+      );
     } catch (error) {
       console.error('Erro ao atualizar a senha:', error);
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);

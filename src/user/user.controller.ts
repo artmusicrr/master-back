@@ -85,7 +85,11 @@ export class UserController {
 
   @Post('/update-password')
   async updateUserPassword(
-    @Body() request: { reset_token: string; password: string },
+    @Body()
+    request: {
+      reset_token: string;
+      password: string;
+    },
   ): Promise<any> {
     try {
       const { reset_token, password } = request;

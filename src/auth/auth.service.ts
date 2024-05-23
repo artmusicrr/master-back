@@ -41,6 +41,8 @@ export class AuthService {
         sub: user.id_user,
         email_user: user.email,
       };
+
+      console.log(payload);
       return { access_token: this.jwtService.sign(payload) };
     } catch (error) {
       throw new BadRequestException('Invalid Credentials');
@@ -118,6 +120,7 @@ export class AuthService {
       await transporter.sendMail(mailOptions);
     } catch (error) {
       console.error('Erro ao enviar e-mail:', error);
+      console.log(mailOptions);
     }
   }
 }
