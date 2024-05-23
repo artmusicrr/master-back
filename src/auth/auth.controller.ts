@@ -19,9 +19,9 @@ function generateResetToken(
   const reset_token = crypto
     .randomBytes(tokenLength)
     .toString('hex')
-    .toUpperCase(); // Gera uma string hexadecimal aleatória
+    .toUpperCase();
   const expiration = new Date();
-  expiration.setTime(expiration.getTime() + expirationMinutes * 60 * 1000); // Define o tempo de expiração em minutos
+  expiration.setTime(expiration.getTime() + expirationMinutes);
   return { reset_token, expiration };
 }
 
@@ -32,6 +32,7 @@ export class AuthController {
   @UseGuards(LocalAuthGuard)
   @Post('/login')
   async login(@Request() req: any) {
+    console.log(req.user);
     return this.authService.login(req.user);
   }
 
@@ -42,14 +43,13 @@ export class AuthController {
       if (!user) {
         throw new HttpException('Usuário não encontrado', HttpStatus.NOT_FOUND);
       }
-      console.log('=user=', user);
-      const { reset_token, expiration } = generateResetToken(4, 1); // Gera um token de redefinição de senha único com expiração de 30 minutos
+      const { reset_token, expiration } = generateResetToken(4, 1);
       await this.authService.saveByResetToken(
         user.id_user,
         reset_token,
         expiration,
-      ); // Salva o token de redefinição no banco de dados, associado ao usuário
-      await this.authService.sendPasswordResetEmail(user.email, reset_token); // Envie o token de redefinição de senha por e-mail
+      );
+      await this.authService.sendPasswordResetEmail(user.email, reset_token);
       return {
         message: `Instruções de redefinição de senha enviadas com sucesso para   ${user.email}`,
       };
