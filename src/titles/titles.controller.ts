@@ -31,6 +31,21 @@ export class TitleController {
 
   @UseGuards(JwtAuthdGuard)
   @Patch(':id_text')
+  async updateText(
+    @Param('id_text') id_text: number,
+    @Body() request: DataRequest,
+  ): Promise<any> {
+    try {
+      const text = await this.titlesService.updateText(id_text, request);
+      console.log('controller ==>', text);
+      return { message: 'Texto atualizado com sucesso', text: text };
+    } catch (error) {
+      throw new NotFoundException(error.message);
+    }
+  }
+
+  @UseGuards(JwtAuthdGuard)
+  @Patch(':id_text')
   async updateTitle(
     @Param('id_text') id_text: number,
     @Body() request: DataRequest,
@@ -38,7 +53,37 @@ export class TitleController {
     try {
       const title = await this.titlesService.updateTitle(id_text, request);
       console.log('controller ==>', title);
-      return { message: 'Usuário atualizado com sucesso', title: title };
+      return { message: 'Título atualizado com sucesso', title: title };
+    } catch (error) {
+      throw new NotFoundException(error.message);
+    }
+  }
+
+  @UseGuards(JwtAuthdGuard)
+  @Patch(':id_text')
+  async updateSubTitle(
+    @Param('id_text') id_text: number,
+    @Body() request: DataRequest,
+  ): Promise<any> {
+    try {
+      const sub_title = await this.titlesService.updateSubTitle(id_text, request);
+      console.log('controller ==>', sub_title);
+      return { message: 'Sub Título atualizado com sucesso', sub_title: sub_title };
+    } catch (error) {
+      throw new NotFoundException(error.message);
+    }
+  }
+
+  @UseGuards(JwtAuthdGuard)
+  @Patch(':id_text')
+  async updateAnyText(
+    @Param('id_text') id_text: number,
+    @Body() request: DataRequest,
+  ): Promise<any> {
+    try {
+      const any_text = await this.titlesService.updateAnyText(id_text, request);
+      console.log('controller ==>', any_text);
+      return { message: 'Sub Título atualizado com sucesso', any_text: any_text };
     } catch (error) {
       throw new NotFoundException(error.message);
     }
