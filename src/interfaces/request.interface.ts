@@ -10,6 +10,11 @@ export interface DataRequest {
   db: any;
   client: Client;
   body: any;
+  id_text: number;
+  text: string;
+  title: string;
+  sub_title: string;
+  any_text: string;
 }
 
 export interface UpdateUserRequest extends DataRequest {
