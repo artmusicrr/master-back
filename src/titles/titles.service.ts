@@ -19,19 +19,66 @@ export class TitlesService {
     return users;
   }
 
-  async updateTitle(id_text: number, request: DataRequest): Promise<any> {
+  async updateText(id_text: number, request: DataRequest): Promise<any> {
     try {
-      const updatedTitle = await this.titleRepository.updateById(
+      const updatedText = await this.titleRepository.updateByIdText(
         id_text,
         request,
       );
-      console.log('service ==>', updatedTitle, id_text);
-      if (!updatedTitle) {
+      console.log('service ==>', updatedText, id_text);
+      if (!updatedText) {
         throw new NotFoundException('Texto não localizado!');
       }
-      return updatedTitle;
+      return updatedText;
     } catch (error) {
       throw new NotFoundException('Texto não localizado!');
+    }
+  }
+  async updateTitle(id_text: number, request: DataRequest): Promise<any> {
+    try {
+      const updateByIdTitle = await this.titleRepository.updateByIdTitle(
+        id_text,
+        request,
+      );
+      console.log('service ==>', updateByIdTitle, id_text);
+      if (!updateByIdTitle) {
+        throw new NotFoundException('Título não localizado!');
+      }
+      return updateByIdTitle;
+    } catch (error) {
+      throw new NotFoundException('Título não localizado!');
+    }
+  }
+
+  async updateSubTitle(id_text: number, request: DataRequest): Promise<any> {
+    try {
+      const updateByIdSubTitle = await this.titleRepository.updateByIdSubTitle(
+        id_text,
+        request,
+      );
+      console.log('service ==>', updateByIdSubTitle, id_text);
+      if (!updateByIdSubTitle) {
+        throw new NotFoundException('Sub Título não localizado!');
+      }
+      return updateByIdSubTitle;
+    } catch (error) {
+      throw new NotFoundException('Sub Título não localizado!');
+    }
+  }
+
+  async updateAnyText(id_text: number, request: DataRequest): Promise<any> {
+    try {
+      const updateByIdAnyText = await this.titleRepository.updateByIdAnyText(
+        id_text,
+        request,
+      );
+      console.log('service ==>', updateByIdAnyText, id_text);
+      if (!updateByIdAnyText) {
+        throw new NotFoundException('Sub Título não localizado!');
+      }
+      return updateByIdAnyText;
+    } catch (error) {
+      throw new NotFoundException('Sub Título não localizado!');
     }
   }
 
