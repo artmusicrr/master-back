@@ -25,7 +25,7 @@ export class TitlesService {
         id_text,
         request,
       );
-      console.log('service ==>', updatedText, id_text);
+      //console.log('service ==>', updatedText, id_text);
       if (!updatedText) {
         throw new NotFoundException('Texto não localizado!');
       }
@@ -36,6 +36,7 @@ export class TitlesService {
   }
   async updateTitle(id_text: number, request: DataRequest): Promise<any> {
     try {
+      console.log('request ==>', request.title);
       const updateByIdTitle = await this.titleRepository.updateByIdTitle(
         id_text,
         request,
@@ -56,7 +57,7 @@ export class TitlesService {
         id_text,
         request,
       );
-      console.log('service ==>', updateByIdSubTitle, id_text);
+      //console.log('service ==>', updateByIdSubTitle, id_text);
       if (!updateByIdSubTitle) {
         throw new NotFoundException('Sub Título não localizado!');
       }
@@ -72,7 +73,7 @@ export class TitlesService {
         id_text,
         request,
       );
-      console.log('service ==>', updateByIdAnyText, id_text);
+      //console.log('service ==>', updateByIdAnyText, id_text);
       if (!updateByIdAnyText) {
         throw new NotFoundException('Sub Título não localizado!');
       }
