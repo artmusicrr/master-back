@@ -15,6 +15,13 @@ export interface DataRequest {
   title: string;
   sub_title: string;
   any_text: string;
+  img: string;
+  img_home: string; 
+  img_gallery: string;
+  id_image: number;
+  image_other: string;
+  img_small: string;
+  description: string;
 }
 
 export interface UpdateUserRequest extends DataRequest {

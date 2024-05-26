@@ -2,7 +2,7 @@ import { Injectable, Inject, NotFoundException } from '@nestjs/common';
 import { TitleRepository } from './entities/text.entities';
 import { Pool } from 'pg';
 import { DataRequest } from 'src/interfaces/request.interface';
-//import { CreateUserDto, UpdateUserDto } from './entities/user.dto';
+
 
 @Injectable()
 export class TitlesService {
@@ -36,12 +36,12 @@ export class TitlesService {
   }
   async updateTitle(id_text: number, request: DataRequest): Promise<any> {
     try {
-      console.log('request ==>', request.title);
+      //console.log('request ==>', request.title);
       const updateByIdTitle = await this.titleRepository.updateByIdTitle(
         id_text,
         request,
       );
-      console.log('service ==>', updateByIdTitle, id_text);
+      //console.log('service ==>', updateByIdTitle, id_text);
       if (!updateByIdTitle) {
         throw new NotFoundException('Título não localizado!');
       }
@@ -85,15 +85,5 @@ export class TitlesService {
 
   //
 
-  //   async getUserByUsername(name: string): Promise<any> {
-  //     try {
-  //       const data = await this.userRepository.findByName(name);
-  //       if (!data) {
-  //         throw new Error('Usuário não localizado');
-  //       }
-  //       return data;
-  //     } catch (error) {
-  //       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
-  //     }
-  //   }
+
 }

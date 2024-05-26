@@ -37,8 +37,8 @@ export class TitleController {
   ): Promise<any> {
     try {
       const text = await this.titlesService.updateText(id_text, request);
-      //console.log('controller ==>', text);
-      return { message: 'Texto atualizado com sucesso', text: text };
+      //console.log('controller ==>', request.id_text, text);
+      return { message: 'Texto atualizado com sucesso !!!!! NO DB', text: text };
     } catch (error) {
       throw new NotFoundException(error.message);
     }
