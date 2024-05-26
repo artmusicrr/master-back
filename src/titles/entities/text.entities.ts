@@ -1,9 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Pool } from 'pg';
-//import { DataRequest } from 'src/interfaces/request.interface';
 
-//import * as bcrypt from 'bcrypt';
-//import { CreateUserDto, UpdateUserDto } from './use.dto';
 
 @Injectable()
 export class TitleRepository {
@@ -20,10 +17,10 @@ export class TitleRepository {
   }
 
   async updateByIdText(id_text: number, request: any): Promise<any> {
-    //console.log('request ==>', request.id_text);
-    const { text } = request;
+    //console.log('request entities ==>', request.id_text);
+    const { content } = request;
     const query = `UPDATE public.text_title SET text = $1 WHERE id_text = $2 RETURNING *;`;
-    const values = [text, id_text];
+    const values = [content, id_text];
     //console.log('VALUES ===>>', values, id_text);
     const result = await this.db.query(query, values);
     return result.rows[0];
@@ -31,9 +28,9 @@ export class TitleRepository {
 
   async updateByIdTitle(id_text: number, request: any): Promise<any> {
     //console.log('request ==>', request.id_text);
-    const { title } = request;
+    const { content } = request;
     const query = `UPDATE public.text_title SET title =$1 WHERE id_text = $2 RETURNING *;`;
-    const values = [title, id_text];
+    const values = [content, id_text];
     //console.log('VALUES ===>>', values, id_text);
     const result = await this.db.query(query, values);
     return result.rows[0];
@@ -41,9 +38,9 @@ export class TitleRepository {
 
   async updateByIdSubTitle(id_text: number, request: any): Promise<any> {
     //console.log('request ==>', request.id_text);
-    const { sub_title } = request;
+    const { content } = request;
     const query = `UPDATE public.text_title SET sub_title = $1 WHERE id_text = $2 RETURNING *;`;
-    const values = [sub_title, id_text];
+    const values = [content, id_text];
     //console.log('VALUES ===>>', values, id_text);
     const result = await this.db.query(query, values);
     return result.rows[0];
@@ -51,9 +48,9 @@ export class TitleRepository {
 
   async updateByIdAnyText(id_text: number, request: any): Promise<any> {
     // console.log('request ==>', request.id_text);
-    const { any_text } = request;
+    const { content } = request;
     const query = `UPDATE public.text_title SET any_text = $1 WHERE id_text = $2 RETURNING *;`;
-    const values = [any_text, id_text];
+    const values = [content, id_text];
     // console.log('VALUES ===>>', values, id_text);
     const result = await this.db.query(query, values);
     return result.rows[0];
