@@ -39,7 +39,7 @@ export class UserController {
       throw new BadRequestException(error.message);
     }
   }
-  @UseGuards(JwtAuthdGuard)
+  //@UseGuards(JwtAuthdGuard)
   @Get()
   async findAllUsers() {
     try {
