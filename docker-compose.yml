@@ -1,15 +1,44 @@
 version: '3'
 services:
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      TZ: 'America/Sao_Paulo'
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - ${POSTGRES_PORT}:5432
+    networks:
+      - backend_network
+
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+    ports:
+      - "8080:80"
+    networks:
+      - backend_network
+    depends_on:
+      - postgres
+
   backend:
     build: .
     restart: always
     environment:
       POSTGRES_HOST: ${POSTGRES_HOST}
-      POSTGRES_PORT: ${POSTGRES_PORT}
+      POSTGRES_PORT: ${POSTGRES_PORT} 
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
-      PORT: ${PORT}
+    depends_on:
+      - postgres 
     ports:
       - "4001:4001"
     networks:
@@ -18,3 +47,6 @@ services:
 networks:
   backend_network:
     driver: bridge
+
+volumes:
+  postgres_data:
