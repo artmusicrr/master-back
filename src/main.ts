@@ -13,6 +13,6 @@ const port = process.env.PORT;
     allowedHeaders: 'Content-Type,Authorization',
   });
 
-  await app.listen(port);
+  await app.listen(4000);
 }
 bootstrap();

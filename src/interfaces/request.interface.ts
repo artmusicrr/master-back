@@ -22,6 +22,11 @@ export interface DataRequest {
   image_other: string;
   img_small: string;
   description: string;
+  color_title: string;
+  content: string;
+  color: string;
+  
+
 }
 
 export interface UpdateUserRequest extends DataRequest {

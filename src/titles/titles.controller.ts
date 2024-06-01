@@ -50,10 +50,10 @@ export class TitleController {
     @Param('id_text') id_text: number,
     @Body() request: DataRequest,
   ): Promise<any> {
-    //console.log('request ==>', request);
+    //console.log('request ==>', request.color);
     try {
       const title = await this.titlesService.updateTitle(id_text, request);
-      //console.log('controller ==>', title);
+      console.log('controller ==>', title,  request.color_title);
       return { message: 'Título atualizado com sucesso', title: title };
     } catch (error) {
       throw new NotFoundException(error.message);
@@ -93,6 +93,24 @@ export class TitleController {
       return {
         message: 'Sub Título atualizado com sucesso',
         any_text: any_text,
+      };
+    } catch (error) {
+      throw new NotFoundException(error.message);
+    }
+  }
+
+  @Patch('/update-color/:id_text')
+  async updateColorText(
+    @Param('id_text') id_text: number,
+    @Body() request: DataRequest,
+  ): Promise<any> {
+    console.log('request >=>=>', request);
+    try {
+      const colorText = await this.titlesService.updateColorText(id_text, request);
+      console.log('colorText ==>', colorText.color_title);
+      return {
+        message: 'Cor atualizada com sucesso',
+        color_title: colorText,
       };
     } catch (error) {
       throw new NotFoundException(error.message);
