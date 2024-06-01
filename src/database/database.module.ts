@@ -13,7 +13,7 @@ import { Pool } from 'pg';
           user: process.env.POSTGRES_USER,
           password: process.env.POSTGRES_PASSWORD,
           database: process.env.POSTGRES_DB,
-          ssl: { rejectUnauthorized: false },
+          //ssl: { rejectUnauthorized: false },
         });
         
         

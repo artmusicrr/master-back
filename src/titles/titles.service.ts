@@ -36,12 +36,12 @@ export class TitlesService {
   }
   async updateTitle(id_text: number, request: DataRequest): Promise<any> {
     try {
-      //console.log('request ==>', request.title);
+      //console.log('request ==>', request.title, request.color);
       const updateByIdTitle = await this.titleRepository.updateByIdTitle(
         id_text,
         request,
       );
-      //console.log('service ==>', updateByIdTitle, id_text);
+      //console.log('service ==>', updateByIdTitle, id_text, request.color);
       if (!updateByIdTitle) {
         throw new NotFoundException('Título não localizado!');
       }
@@ -80,6 +80,23 @@ export class TitlesService {
       return updateByIdAnyText;
     } catch (error) {
       throw new NotFoundException('Sub Título não localizado!');
+    }
+  }
+
+  async updateColorText(id_text: number, request: DataRequest): Promise<any> {
+    console.log('request service >=>=>', request);
+    try {
+      const ColorText = await this.titleRepository.updateByIdColorText(
+        id_text,
+        request,
+      );
+      console.log('service ==>', ColorText.color_title, id_text);
+      if (!ColorText) {
+        throw new NotFoundException('Cor não localizada!');
+      }
+      return ColorText;
+    } catch (error) {
+      throw new NotFoundException('Cor não localizada!');
     }
   }
 
