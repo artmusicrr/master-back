@@ -25,6 +25,7 @@ export interface DataRequest {
   color_title: string;
   content: string;
   color: string;
+  typeText: string;
   
 
 }

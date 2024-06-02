@@ -60,9 +60,10 @@ export class TitleRepository {
 
   async updateByIdColorText(id_text: number, request: DataRequest): Promise<any> {
     console.log('request entities ==>', request);
-    const { text } = request;
-    const query = `UPDATE public.text_title SET color_title = $1 WHERE id_text = $3 RETURNING *;`;
-    const values = [text, id_text];
+    const { color, typeText } = request;
+    const typeNew = typeText;
+    const query = `UPDATE public.text_title SET ${typeNew} = $1 WHERE id_text = $2 RETURNING *;`;
+    const values = [ color, id_text];
     console.log('VALUES ===>>', values);
     const result = await this.db.query(query, values);
     return result.rows[0];
