@@ -1,5 +1,4 @@
 import {
-  BadRequestException,
   NotFoundException,
   ValidationPipe,
   UsePipes,
@@ -26,18 +25,11 @@ export class UserController {
   @Post('/create-user')
   @UsePipes(new ValidationPipe({ whitelist: true }))
   async createUser(@Body() request: CreateUserDto): Promise<any> {
-    try {
-      const data = await this.userService.createUser(request);
-      return {
-        message: 'Usuário criado com sucesso',
-        data: data,
-      };
-    } catch (error) {
-      if (error instanceof BadRequestException) {
-        throw error;
-      }
-      throw new BadRequestException(error.message);
-    }
+    const data = await this.userService.createUser(request);
+    return {
+      message: 'Usuário criado com sucesso',
+      data: data,
+    };
   }
   //@UseGuards(JwtAuthdGuard)
   @Get()

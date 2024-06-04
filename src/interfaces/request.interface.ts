@@ -16,7 +16,7 @@ export interface DataRequest {
   sub_title: string;
   any_text: string;
   img: string;
-  img_home: string; 
+  img_home: string;
   img_gallery: string;
   id_image: number;
   image_other: string;
@@ -25,8 +25,7 @@ export interface DataRequest {
   color_title: string;
   content: string;
   color: string;
-  
-
+  typeText: string;
 }
 
 export interface UpdateUserRequest extends DataRequest {

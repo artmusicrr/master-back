@@ -3,7 +3,6 @@ import { TitleRepository } from './entities/text.entities';
 import { Pool } from 'pg';
 import { DataRequest } from 'src/interfaces/request.interface';
 
-
 @Injectable()
 export class TitlesService {
   constructor(
@@ -13,94 +12,72 @@ export class TitlesService {
 
   async findAllUsers(): Promise<any[]> {
     const users = await this.titleRepository.findAllTitle();
-    if (!users.length) {
-      throw new NotFoundException('No users found');
+    if (!users) {
+      throw new NotFoundException(`No users found`);
     }
     return users;
   }
 
   async updateText(id_text: number, request: DataRequest): Promise<any> {
-    try {
-      const updatedText = await this.titleRepository.updateByIdText(
-        id_text,
-        request,
-      );
-      //console.log('service ==>', updatedText, id_text);
-      if (!updatedText) {
-        throw new NotFoundException('Texto não localizado!');
-      }
-      return updatedText;
-    } catch (error) {
-      throw new NotFoundException('Texto não localizado!');
+    const updatedText = await this.titleRepository.updateByIdText(
+      id_text,
+      request,
+    );
+    if (!updatedText) {
+      throw new NotFoundException(`Texto do ID ${id_text} não localizado!`);
     }
+    return updatedText;
   }
   async updateTitle(id_text: number, request: DataRequest): Promise<any> {
-    try {
-      //console.log('request ==>', request.title, request.color);
-      const updateByIdTitle = await this.titleRepository.updateByIdTitle(
-        id_text,
-        request,
-      );
-      //console.log('service ==>', updateByIdTitle, id_text, request.color);
-      if (!updateByIdTitle) {
-        throw new NotFoundException('Título não localizado!');
-      }
-      return updateByIdTitle;
-    } catch (error) {
-      throw new NotFoundException('Título não localizado!');
+    const updateByIdTitle = await this.titleRepository.updateByIdTitle(
+      id_text,
+      request,
+    );
+    if (!updateByIdTitle) {
+      throw new NotFoundException(`Título do ID ${id_text} não localizado!`);
     }
+    return updateByIdTitle;
   }
 
   async updateSubTitle(id_text: number, request: DataRequest): Promise<any> {
-    try {
-      const updateByIdSubTitle = await this.titleRepository.updateByIdSubTitle(
-        id_text,
-        request,
+    const updateByIdSubTitle = await this.titleRepository.updateByIdSubTitle(
+      id_text,
+      request,
+    );
+
+    if (!updateByIdSubTitle) {
+      throw new NotFoundException(
+        `Sub Título do ID ${id_text} não localizado!`,
       );
-      //console.log('service ==>', updateByIdSubTitle, id_text);
-      if (!updateByIdSubTitle) {
-        throw new NotFoundException('Sub Título não localizado!');
-      }
-      return updateByIdSubTitle;
-    } catch (error) {
-      throw new NotFoundException('Sub Título não localizado!');
     }
+    return updateByIdSubTitle;
   }
 
   async updateAnyText(id_text: number, request: DataRequest): Promise<any> {
-    try {
-      const updateByIdAnyText = await this.titleRepository.updateByIdAnyText(
-        id_text,
-        request,
+    const updateByIdAnyText = await this.titleRepository.updateByIdAnyText(
+      id_text,
+      request,
+    );
+    if (!updateByIdAnyText) {
+      throw new NotFoundException(
+        `Sub Título do ID ${id_text} não localizado!`,
       );
-      //console.log('service ==>', updateByIdAnyText, id_text);
-      if (!updateByIdAnyText) {
-        throw new NotFoundException('Sub Título não localizado!');
-      }
-      return updateByIdAnyText;
-    } catch (error) {
-      throw new NotFoundException('Sub Título não localizado!');
     }
+    return updateByIdAnyText;
   }
 
   async updateColorText(id_text: number, request: DataRequest): Promise<any> {
     console.log('request service >=>=>', request);
-    try {
-      const ColorText = await this.titleRepository.updateByIdColorText(
-        id_text,
-        request,
-      );
-      console.log('service ==>', ColorText.color_title, id_text);
-      if (!ColorText) {
-        throw new NotFoundException('Cor não localizada!');
-      }
-      return ColorText;
-    } catch (error) {
-      throw new NotFoundException('Cor não localizada!');
+
+    const ColorText = await this.titleRepository.updateByIdColorText(
+      id_text,
+      request,
+    );
+    if (!ColorText) {
+      throw new NotFoundException(`Cor do ID ${id_text} não localizado!`);
     }
+    return ColorText;
   }
 
   //
-
-
 }

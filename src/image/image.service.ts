@@ -1,8 +1,12 @@
-import { Injectable, Inject, NotFoundException, BadRequestException } from '@nestjs/common';
+import {
+  Injectable,
+  Inject,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { ImageRepository } from './entitiies/image.entities';
 import { Pool } from 'pg';
 import { DataRequest } from 'src/interfaces/request.interface';
-
 
 @Injectable()
 export class ImageService {
@@ -19,14 +23,11 @@ export class ImageService {
     return users;
   }
 
-  async createImage(request: DataRequest ): Promise<void> {
+  async createImage(request: DataRequest): Promise<void> {
     const exists = await this.imageRepository.imageExists(request.img_home);
     if (exists) {
-      throw new BadRequestException('Imagem já está em uso');
+      throw new NotFoundException(`Imagem ${request.img_home} ja existe`);
     }
     await this.imageRepository.createImage(request);
   }
-
-
-
 }
