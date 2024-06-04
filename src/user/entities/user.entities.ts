@@ -16,6 +16,7 @@ export class UserRepository {
       await this.db.query(query, [name, email, hashedPassword]);
     } catch (error: any) {
       console.log(error);
+      throw new Error('Erro ao executar a consulta');
     }
   }
   async findUserByEmail(email: string): Promise<any> {
@@ -31,6 +32,7 @@ export class UserRepository {
       return result.rows;
     } catch (error) {
       console.log(error);
+      throw new Error('Erro ao executar a consulta');
     }
   }
 
@@ -49,6 +51,7 @@ export class UserRepository {
       return result.rows[0];
     } catch (error) {
       console.log(error);
+      throw new Error('Erro ao executar a consulta');
     }
   }
 
@@ -59,7 +62,7 @@ export class UserRepository {
       const result = await this.db.query(query);
       return result.rows[0];
     } catch (error) {
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+      throw new Error('Erro ao executar a consulta');
     }
   }
 
@@ -76,10 +79,8 @@ export class UserRepository {
       const values = [resetToken, expirationDate, id_user];
       await this.db.query(query, values);
     } catch (error) {
-      throw new HttpException(
-        'Erro ao salvar o token de redefinição',
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
+      console.log(error);
+      throw new Error('Erro ao executar a consulta');
     }
   }
   async findUserLogin(name: string): Promise<any> {
@@ -92,6 +93,7 @@ export class UserRepository {
       // console.log('======', result);
       return result.rows[0];
     } catch (error) {
+      console.log(error);
       throw new Error('Erro ao executar a consulta');
     }
   }
@@ -136,7 +138,8 @@ export class UserRepository {
       WHERE reset_token = $1;`;
       await this.db.query(queryResetToken, [reset_token]);
     } catch (error) {
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+      console.log(error);
+      throw new Error('Erro ao executar a consulta');
     }
   }
   async findUserByResetToken(token: string): Promise<any> {
