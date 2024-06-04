@@ -1,10 +1,4 @@
-import {
-  Injectable,
-  Inject,
-  HttpException,
-  HttpStatus,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, Inject, NotFoundException } from '@nestjs/common';
 import { UserRepository } from './entities/user.entities';
 import { Pool } from 'pg';
 import { CreateUserDto, UpdateUserDto } from './entities/user.dto';
