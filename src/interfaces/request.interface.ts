@@ -26,6 +26,7 @@ export interface DataRequest {
   content: string;
   color: string;
   typeText: string;
+  fontSize: string;
 }
 
 export interface UpdateUserRequest extends DataRequest {
