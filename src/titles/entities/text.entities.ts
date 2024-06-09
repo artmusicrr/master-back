@@ -18,9 +18,9 @@ export class TitleRepository {
 
   async updateByIdText(id_text: number, request: DataRequest): Promise<any> {
     //console.log('request entities ==>', request.id_text);
-    const { text } = request;
-    const query = `UPDATE public.text_title SET text = $1 WHERE id_text = $2 RETURNING *;`;
-    const values = [text, id_text];
+    const { text, fontSize } = request;
+    const query = `UPDATE public.text_title SET text = $1, font_size_text = $3 WHERE id_text = $2 RETURNING *;`;
+    const values = [text, id_text, fontSize];
     //console.log('VALUES ===>>', values, id_text);
     const result = await this.db.query(query, values);
     return result.rows[0];
@@ -28,9 +28,9 @@ export class TitleRepository {
 
   async updateByIdTitle(id_text: number, request: DataRequest): Promise<any> {
     //console.log('request ==>', request.id_text, request.color);
-    const { text } = request;
-    const query = `UPDATE public.text_title SET title = $1 WHERE id_text = $2 RETURNING *;`;
-    const values = [text, id_text];
+    const { text, fontSize } = request;
+    const query = `UPDATE public.text_title SET title = $1 , font_size_title = $3 WHERE id_text = $2 RETURNING *;`;
+    const values = [text, id_text, fontSize];
     //console.log('VALUES ===>>', values, color );
     const result = await this.db.query(query, values);
     return result.rows[0];
@@ -41,9 +41,9 @@ export class TitleRepository {
     request: DataRequest,
   ): Promise<any> {
     //console.log('request ==>', request.id_text);
-    const { text } = request;
-    const query = `UPDATE public.text_title SET sub_title = $1 WHERE id_text = $2 RETURNING *;`;
-    const values = [text, id_text];
+    const { text, fontSize } = request;
+    const query = `UPDATE public.text_title SET sub_title = $1 , font_size_sub_title = $3 WHERE id_text = $2 RETURNING *;`;
+    const values = [text, id_text, fontSize];
     //console.log('VALUES ===>>', values, id_text);
     const result = await this.db.query(query, values);
     return result.rows[0];
