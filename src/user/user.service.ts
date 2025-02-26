@@ -79,6 +79,7 @@ export class UserService {
       throw new NotFoundException(`Erro ao salvar o token de redefinição`);
     }
   }
+
   async findUserLogin(name: string): Promise<any> {
     try {
       const query = `
@@ -91,11 +92,51 @@ export class UserService {
       throw new NotFoundException('Erro ao executar a consulta');
     }
   }
+
   async updateUserPassword(token: string, password: string): Promise<void> {
     try {
       await this.userRepository.updateUserPassword(token, password);
     } catch (error) {
       throw new NotFoundException('Erro ao atualizar a senha');
+    }
+  }
+
+  async findByEmail(email: string): Promise<any> {
+    try {
+      const query = `
+        SELECT id_user, name, email, registration_date, active, oauth_provider, oauth_id
+        FROM public.users
+        WHERE email = $1;`;
+      const result = await this.db.query(query, [email]);
+      return result.rows[0];
+    } catch (error) {
+      return null;
+    }
+  }
+
+  async create(userData: {
+    name: string;
+    email: string;
+    oauth_provider?: string;
+    oauth_id?: string;
+  }): Promise<any> {
+    try {
+      const query = `
+        INSERT INTO public.users (name, email, oauth_provider, oauth_id, registration_date, active)
+        VALUES ($1, $2, $3, $4, NOW(), true)
+        RETURNING id_user, name, email, registration_date, active, oauth_provider, oauth_id;`;
+      
+      const result = await this.db.query(query, [
+        userData.name, 
+        userData.email, 
+        userData.oauth_provider || null, 
+        userData.oauth_id || null
+      ]);
+      
+      return result.rows[0];
+    } catch (error) {
+      console.error('Error creating user:', error);
+      throw new Error('Could not create user');
     }
   }
 }

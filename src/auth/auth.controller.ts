@@ -6,11 +6,13 @@ import {
   HttpException,
   HttpStatus,
   Body,
+  Get,
 } from '@nestjs/common';
 import { LocalAuthGuard } from './local.auth/local-auth.guard';
 import { AuthService } from './auth.service';
 import { UpdateUserDto } from './../user/entities/user.dto';
 import * as crypto from 'crypto';
+import { AuthGuard } from '@nestjs/passport';
 
 function generateResetToken(
   tokenLength: number,
@@ -21,7 +23,7 @@ function generateResetToken(
     .toString('hex')
     .toUpperCase();
   const expiration = new Date();
-  expiration.setTime(expiration.getTime() + expirationMinutes);
+  expiration.setTime(expiration.getTime() + expirationMinutes * 60 * 1000);
   return { reset_token, expiration };
 }
 
@@ -56,5 +58,18 @@ export class AuthController {
     } catch (error) {
       throw new HttpException('Usuário não encontrado', HttpStatus.NOT_FOUND);
     }
+  }
+
+  @Get('/google')
+  @UseGuards(AuthGuard('google'))
+  async googleLogin() {
+    // Initiates Google OAuth2 login
+  }
+
+  @Get('/google/callback')
+  @UseGuards(AuthGuard('google'))
+  async googleLoginCallback(@Request() req) {
+    // After successful authentication, generate JWT
+    return this.authService.login(req.user);
   }
 }

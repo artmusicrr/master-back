@@ -123,4 +123,26 @@ export class AuthService {
       console.log(mailOptions);
     }
   }
+
+  async validateOAuth2User(profile: any): Promise<any> {
+    // Check if user exists by email
+    const existingUser = await this.usersService.findByEmail(
+      profile.emails[0].value,
+    );
+
+    if (existingUser) {
+      return existingUser;
+    }
+
+    // Create new user if not exists
+    const newUser = await this.usersService.create({
+      name: profile.displayName,
+      email: profile.emails[0].value,
+      // You might want to add more fields or a specific OAuth user flag
+      oauth_provider: profile.provider,
+      oauth_id: profile.id,
+    });
+
+    return newUser;
+  }
 }
