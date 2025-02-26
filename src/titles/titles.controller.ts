@@ -23,65 +23,63 @@ export class TitleController {
   }
 
   //@UseGuards(JwtAuthdGuard)
-  @Patch('/update-text/:id_text')
+  @Patch('/update-text/:id')
   async updateText(
-    @Param('id_text') id_text: number,
+    @Param('id') id: number,
     @Body() request: DataRequest,
   ): Promise<any> {
-    const text = await this.titlesService.updateText(id_text, request);
+    console.log('request >=>=>', request, id);
+    const result = await this.titlesService.updateText(id, request);
+    console.log('result >=>=>', result);
     return {
       message: 'Texto atualizado com sucesso!',
-      text: text,
+      result: result,
     };
   }
 
   //@UseGuards(JwtAuthdGuard)
-  @Patch('/update-title/:id_text')
+  @Patch('/update-title/:id')
   async updateTitle(
-    @Param('id_text') id_text: number,
+    @Param('id') id: number,
     @Body() request: DataRequest,
   ): Promise<any> {
-    const title = await this.titlesService.updateTitle(id_text, request);
-    console.log('controller ==>', title, request.color_title);
+    const title = await this.titlesService.updateTitle(id, request);
     return { message: 'Título atualizado com sucesso', title: title };
   }
 
   //@UseGuards(JwtAuthdGuard)
-  @Patch('/update-sub-title/:id_text')
+  @Patch('/update-sub-title/:id')
   async updateSubTitle(
-    @Param('id_text') id_text: number,
+    @Param('id') id: number,
     @Body() request: DataRequest,
   ): Promise<any> {
-    const sub_title = await this.titlesService.updateSubTitle(id_text, request);
+    const result = await this.titlesService.updateSubTitle(id, request);
     return {
       message: 'Sub Título atualizado com sucesso',
-      sub_title: sub_title,
+      sub_title: result,
     };
   }
 
   //@UseGuards(JwtAuthdGuard)
-  @Patch('/update-any-text/:id_text')
+  @Patch('/update-any-text/:id')
   async updateAnyText(
-    @Param('id_text') id_text: number,
+    @Param('id') id: number,
     @Body() request: DataRequest,
   ): Promise<any> {
-    const any_text = await this.titlesService.updateAnyText(id_text, request);
+    const any_text = await this.titlesService.updateAnyText(id, request);
     return {
       message: 'Sub Título atualizado com sucesso',
       any_text: any_text,
     };
   }
 
-  @Patch('/update-color/:id_text')
+  @Patch('/update-color/:id')
   async updateColorText(
-    @Param('id_text') id_text: number,
+    @Param('id') id: number,
     @Body() request: DataRequest,
   ): Promise<any> {
     console.log('request >=>=>', request);
-    const colorText = await this.titlesService.updateColorText(
-      id_text,
-      request,
-    );
+    const colorText = await this.titlesService.updateColorText(id, request);
     return {
       message: 'Cor atualizada com sucesso',
       color_title: colorText,

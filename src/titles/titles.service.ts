@@ -18,37 +18,33 @@ export class TitlesService {
     return users;
   }
 
-  async updateText(id_text: number, request: DataRequest): Promise<any> {
-    const updatedText = await this.titleRepository.updateByIdText(
-      id_text,
-      request,
-    );
+  async updateText(id: number, request: DataRequest): Promise<any> {
+    const updatedText = await this.titleRepository.updateByIdText(id, request);
+    console.log('updatedText >=>=>', updatedText);
     if (!updatedText) {
-      throw new NotFoundException(`Texto do ID ${id_text} não localizado!`);
+      throw new NotFoundException(`Texto do ID ${id} não localizado!`);
     }
     return updatedText;
   }
-  async updateTitle(id_text: number, request: DataRequest): Promise<any> {
+  async updateTitle(id: number, request: DataRequest): Promise<any> {
     const updateByIdTitle = await this.titleRepository.updateByIdTitle(
-      id_text,
+      id,
       request,
     );
     if (!updateByIdTitle) {
-      throw new NotFoundException(`Título do ID ${id_text} não localizado!`);
+      throw new NotFoundException(`Título do ID ${id} não localizado!`);
     }
     return updateByIdTitle;
   }
 
-  async updateSubTitle(id_text: number, request: DataRequest): Promise<any> {
+  async updateSubTitle(id: number, request: DataRequest): Promise<any> {
     const updateByIdSubTitle = await this.titleRepository.updateByIdSubTitle(
-      id_text,
+      id,
       request,
     );
 
     if (!updateByIdSubTitle) {
-      throw new NotFoundException(
-        `Sub Título do ID ${id_text} não localizado!`,
-      );
+      throw new NotFoundException(`Sub Título do ID ${id} não localizado!`);
     }
     return updateByIdSubTitle;
   }

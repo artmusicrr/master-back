@@ -27,6 +27,22 @@ export interface DataRequest {
   color: string;
   typeText: string;
   fontSize: string;
+  //title: string;
+  subtitle: string;
+  //text: string;
+  image_url: string;
+  order: number;
+  font_family_title: string;
+  font_size_title: string;
+  font_weight_title: string;
+  font_family_sub_title: string;
+  font_size_sub_title: string;
+  font_weight_sub_title: string;
+  font_family_text: string;
+  font_size_text: string;
+  font_weight_text: string;
+  color_sub_title: string;
+  color_text: string;
 }
 
 export interface UpdateUserRequest extends DataRequest {
