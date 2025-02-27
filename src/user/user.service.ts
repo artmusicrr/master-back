@@ -125,14 +125,14 @@ export class UserService {
         INSERT INTO public.users (name, email, oauth_provider, oauth_id, registration_date, active)
         VALUES ($1, $2, $3, $4, NOW(), true)
         RETURNING id_user, name, email, registration_date, active, oauth_provider, oauth_id;`;
-      
+
       const result = await this.db.query(query, [
-        userData.name, 
-        userData.email, 
-        userData.oauth_provider || null, 
-        userData.oauth_id || null
+        userData.name,
+        userData.email,
+        userData.oauth_provider || null,
+        userData.oauth_id || null,
       ]);
-      
+
       return result.rows[0];
     } catch (error) {
       console.error('Error creating user:', error);
