@@ -4,7 +4,7 @@ import { PassportModule } from '@nestjs/passport';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { JwtStrategy } from './strategy/jwt.strategy';
-import { SocialOAuthStrategy } from './strategy/social-oauth.strategy';
+//import { SocialOAuthStrategy } from './strategy/social-oauth.strategy';
 import { LocalStrategy } from './strategy/local.strategy';
 import { UserModule } from 'src/user/user.module';
 import { jwtConstants } from './strategy/constants';
@@ -19,7 +19,7 @@ import { jwtConstants } from './strategy/constants';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy, LocalStrategy, SocialOAuthStrategy],
+  providers: [AuthService, JwtStrategy, LocalStrategy],
   exports: [AuthService, JwtModule, PassportModule],
 })
 export class AuthModule {}
