@@ -21,7 +21,7 @@ export class SliderController {
   @UseInterceptors(
     FileInterceptor('image', {
       storage: diskStorage({
-        destination: './uploads',
+        destination: './uploads/slides',
         filename: (req, file, callback) => {
           const uniqueSuffix = uuidv4() + extname(file.originalname);
           callback(null, uniqueSuffix);
@@ -33,7 +33,7 @@ export class SliderController {
     @Param('id') id: number,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    const image_url = `/uploads/${file.filename}`;
+    const image_url = `/uploads/slides/${file.filename}`;
     // Aqui, apenas atualizamos o campo da imagem, ignorando title, sub_title e text
     return this.sliderService.updateImage(id, image_url);
   }

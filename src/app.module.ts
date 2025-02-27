@@ -11,6 +11,7 @@ import { PassportModule } from '@nestjs/passport';
 import { TitlesModule } from './titles/titles.module';
 import { ImageModule } from './image/image.module';
 import { SliderModule } from './slider/slider.module';
+import { GalleryModule } from './gallery/gallery.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 
@@ -23,11 +24,18 @@ import { join } from 'path';
     PassportModule.register({ defaultStrategy: 'jwt' }),
     TitlesModule,
     ImageModule,
-    ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'uploads'), // Servir a pasta de uploads
-      serveRoot: '/uploads', // URL pública para acessar as imagens
-    }),
     SliderModule,
+    GalleryModule,
+    ServeStaticModule.forRoot(
+      {
+        rootPath: join(__dirname, '..', 'uploads/slides'),
+        serveRoot: '/uploads/slides',
+      },
+      {
+        rootPath: join(__dirname, '..', 'uploads/gallery'),
+        serveRoot: '/uploads/gallery',
+      },
+    ),
   ],
   controllers: [AppController],
   providers: [AppService],
