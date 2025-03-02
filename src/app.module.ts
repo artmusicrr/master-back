@@ -14,6 +14,7 @@ import { SliderModule } from './slider/slider.module';
 import { GalleryModule } from './gallery/gallery.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { ContactModule } from './contact/contact.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { join } from 'path';
         serveRoot: '/uploads/gallery',
       },
     ),
+    ContactModule,
   ],
   controllers: [AppController],
   providers: [AppService],
