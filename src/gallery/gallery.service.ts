@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Pool } from 'pg';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -35,6 +35,51 @@ export class GalleryService {
     } catch (error) {
       console.error('Erro ao listar imagens da galeria:', error);
       return [];
+    }
+  }
+
+  async deleteGalleryImage(filename: string): Promise<any> {
+    try {
+      // Construir caminho completo do arquivo
+      const filePath = path.join(this.galleryPath, filename);
+      
+      // Verificar se o arquivo existe
+      if (!fs.existsSync(filePath)) {
+        throw new NotFoundException(`Imagem ${filename} não encontrada`);
+      }
+      
+      // Deletar o arquivo fisicamente
+      fs.unlinkSync(filePath);
+      
+      // Deletar do banco de dados
+      const image_url = `/uploads/gallery/${filename}`;
+      const query = `DELETE FROM public.images WHERE image_url = $1 RETURNING id_image`;
+      const result = await this.pool.query(query, [image_url]);
+      
+      // Verificar se houve registro deletado no banco
+      if (result.rowCount === 0) {
+        return {
+          success: true,
+          message: 'Arquivo físico removido, mas nenhum registro correspondente encontrado no banco de dados.',
+        };
+      }
+      
+      return {
+        success: true,
+        message: 'Imagem removida com sucesso!',
+        deletedId: result.rows[0].id_image
+      };
+    } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
+      
+      console.error('Erro ao deletar imagem da galeria:', error);
+      return {
+        success: false,
+        message: 'Falha ao deletar a imagem.',
+        error: error.message
+      };
     }
   }
 }
