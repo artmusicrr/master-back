@@ -5,6 +5,10 @@ import {
   UseInterceptors,
   Body,
   Get,
+  Delete,
+  Param,
+  HttpStatus,
+  HttpException,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
@@ -32,6 +36,7 @@ export class GalleryController {
     @UploadedFile() file: Express.Multer.File,
     @Body('description') description: string,
   ) {
+    
     const image_url = `/uploads/gallery/${file.filename}`;
     return this.galleryService.saveGalleryImage(image_url, description);
   }
@@ -39,5 +44,18 @@ export class GalleryController {
   @Get('images')
   async listGalleryImages() {
     return this.galleryService.listGalleryImages();
+  }
+
+  @Delete('image/:filename')
+  async deleteImage(@Param('filename') filename: string) {
+    console.log('Tentando excluir arquivo:', filename);
+    try {
+      return await this.galleryService.deleteGalleryImage(filename);
+    } catch (error) {
+      throw new HttpException(
+        error.message || 'Falha ao deletar a imagem',
+        error.status || HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 }
