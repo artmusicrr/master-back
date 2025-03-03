@@ -18,7 +18,7 @@ export class ContactService {
 
   private initTwilioClient() {
     try {
-      const accountSid = this.configService.get<string>('TWILIO_ACCOUNT_SID') || 'AC98c1db3f38b6e5595edc3f46a50d0ab4';
+      const accountSid = this.configService.get<string>('TWILIO_ACCOUNT_SID');
       const authToken = this.configService.get<string>('TWILIO_AUTH_TOKEN');
 
       if (!authToken) {
