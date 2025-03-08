@@ -1,0 +1,32 @@
+'Log files:
+/home/reg/.npm/_logs/2025-03-08T14_40_42_086Z-debug-0.log
+
+# npm resolution error report
+
+While resolving: master-back@0.0.1
+Found: @nestjs/core@10.3.8
+node_modules/@nestjs/core
+  peer @nestjs/core@"^10.0.0" from @nestjs/platform-express@10.3.8
+  node_modules/@nestjs/platform-express
+    peerOptional @nestjs/platform-express@"^10.0.0" from @nestjs/core@10.3.8
+    peerOptional @nestjs/platform-express@"^10.0.0" from @nestjs/testing@10.3.8
+    node_modules/@nestjs/testing
+      dev @nestjs/testing@"^10.0.0" from the root project
+    @nestjs/platform-express@"11.0.11" from the root project
+  peer @nestjs/core@"^10.0.0" from @nestjs/testing@10.3.8
+  node_modules/@nestjs/testing
+    dev @nestjs/testing@"^10.0.0" from the root project
+  @nestjs/core@"11.0.11" from the root project
+
+Could not resolve dependency:
+@nestjs/core@"11.0.11" from the root project
+
+Conflicting peer dependency: @nestjs/platform-express@11.0.11
+node_modules/@nestjs/platform-express
+  peerOptional @nestjs/platform-express@"^11.0.0" from @nestjs/core@11.0.11
+  node_modules/@nestjs/core
+    @nestjs/core@"11.0.11" from the root project
+
+Fix the upstream dependency conflict, or retry
+this command with --force or --legacy-peer-deps
+to accept an incorrect (and potentially broken) dependency resolution.

@@ -1,0 +1,18 @@
+'Log files:
+/home/reg/.npm/_logs/2025-03-08T14_42_13_763Z-debug-0.log
+
+# npm resolution error report
+
+While resolving: master-back@0.0.1
+Found: @nestjs/common@10.3.8
+node_modules/@nestjs/common
+  @nestjs/common@"10.3.8" from the root project
+
+Could not resolve dependency:
+peer @nestjs/common@"^11.0.2" from @nestjs/serve-static@5.0.3
+node_modules/@nestjs/serve-static
+  @nestjs/serve-static@"^5.0.3" from the root project
+
+Fix the upstream dependency conflict, or retry
+this command with --force or --legacy-peer-deps
+to accept an incorrect (and potentially broken) dependency resolution.
