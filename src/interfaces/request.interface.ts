@@ -4,6 +4,7 @@ export interface DataRequest {
   password: string;
   name: string;
   id_user: number;
+  id?: number;  // Adding this field
   email: string;
   registration_date: string;
   update_date: string;
@@ -27,9 +28,7 @@ export interface DataRequest {
   color: string;
   typeText: string;
   fontSize: string;
-  //title: string;
   subtitle: string;
-  //text: string;
   image_url: string;
   order: number;
   font_family_title: string;
@@ -49,4 +48,10 @@ export interface UpdateUserRequest extends DataRequest {
   name: string;
   email: string;
   password: string;
+}
+
+export interface TextRequest {
+  id_text: number;
+  text_title: string;
+  sub_title: string;
 }

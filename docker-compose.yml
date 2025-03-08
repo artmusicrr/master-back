@@ -40,7 +40,7 @@ services:
     depends_on:
       - postgres 
     ports:
-      - "4001:4001"
+      - "4000:4000"
     networks:
       - backend_network
 

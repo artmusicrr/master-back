@@ -13,15 +13,19 @@ export class ImageRepository {
       const result = await this.db.query(query);
       return result.rows;
     } catch (error) {
-      console.log(error);
+      throw new Error(`Error finding images: ${error.message}`);
     }
   }
 
   async imageExists(img_home: string): Promise<boolean> {
     const query = `SELECT 1 FROM public.images WHERE img_home = $1 LIMIT 1`;
     const imgHomeBuffer = Buffer.from(img_home, 'base64');
-    const result = await this.db.query(query, [imgHomeBuffer]);
-    return result.rowCount > 0;
+    try {
+      const result = await this.db.query(query, [imgHomeBuffer]);
+      return result.rowCount > 0;
+    } catch (error) {
+      throw new Error(`Error finding image: ${error.message}`);
+    }
   }
 
   async createImage(request: DataRequest): Promise<void> {
@@ -32,7 +36,7 @@ export class ImageRepository {
       const result = await this.db.query(query, [imgHomeBuffer]);
       return result.rows[0];
     } catch (error: any) {
-      console.log(error);
+      throw new Error(`Error creating image: ${error.message}`);
     }
   }
 

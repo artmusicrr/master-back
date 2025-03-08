@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Pool } from 'pg';
-import { DataRequest } from 'src/interfaces/request.interface';
+import { DataRequest, TextRequest } from 'src/interfaces/request.interface';
 
 @Injectable()
 export class TitleRepository {
@@ -17,7 +17,6 @@ export class TitleRepository {
   }
 
   async updateByIdText(id: number, request: DataRequest): Promise<any> {
-    console.log('request entities ==>', request.id_text);
     const {
       text,
       font_size_text,
@@ -41,9 +40,7 @@ export class TitleRepository {
       font_weight_text,
       font_family_text,
     ];
-    console.log('VALUES ===>>', values);
     const result = await this.db.query(query, values);
-    console.log('result ENTITY ===>>', result.rows[0]);
     return result.rows[0];
   }
 
@@ -104,22 +101,47 @@ export class TitleRepository {
   }
 
   async updateByIdAnyText(id: number, request: DataRequest): Promise<any> {
-    // console.log('request ==>', request.id_text);
     const { text } = request;
     const query = `UPDATE public.adm_slider SET any_text = $1 WHERE id = $2 RETURNING *;`;
     const values = [text, id];
-    // console.log('VALUES ===>>', values, id_text);
     const result = await this.db.query(query, values);
     return result.rows[0];
   }
 
   async updateByIdColorText(id: number, request: DataRequest): Promise<any> {
-    console.log('request entities ==>', request);
     const { color, typeText } = request;
     const typeNew = typeText;
     const query = `UPDATE public.adm_slider SET ${typeNew} = $1 WHERE id = $2 RETURNING *;`;
     const values = [color, id];
-    console.log('VALUES ===>>', values);
+    const result = await this.db.query(query, values);
+    return result.rows[0];
+  }
+
+  async updateTitleRepository(request: TextRequest): Promise<any> {
+    const { id_text } = request;
+    const values = [request.sub_title, request.text_title, request.id_text];
+
+    const query = `
+      UPDATE public.titles
+      SET sub_title = $1, text_title = $2
+      WHERE id_text = $3
+      RETURNING *;
+    `;
+
+    const result = await this.db.query(query, values);
+    return result.rows[0];
+  }
+
+  async updateTextRepository(request: TextRequest): Promise<void> {
+    const values = [request.sub_title, request.text_title, request.id_text];
+
+    const query = `
+      UPDATE public.titles
+      SET sub_title = $1, text_title = $2
+      WHERE id_text = $3
+      RETURNING *;
+    `;
+
     const result = await this.db.query(query, values);
     return result.rows[0];
   }
