@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, UseGuards, UsePipes, ValidationPipe, Req, Res } from '@nestjs/common';
 import { ContactService } from './contact.service';
 import { JwtAuthdGuard } from '../auth/auth-guard/jwt-auth.guard';
 import { CreateContactFormDto } from './dto/create-contact-form.dto';
@@ -24,4 +24,24 @@ export class ContactController {
   async findOne(@Param('id') id: string) {
     return await this.contactService.getContactById(+id);
   }
+
+  @Post('twilio-webhook')
+  async handleTwilioWebhook(@Req() req, @Res() res) {
+    const { Body, From } = req.body;
+
+    const contactData = {
+      name: 'Desconhecido',
+      email: '',
+      phone_number: From,
+      event_location: 'Não especificado',
+      event_date: 'Não especificado',
+      event_type: 'Não especificado',
+      message: Body,
+    };
+
+    await this.contactService.createContact(contactData);
+
+    res.status(200).send('<Response><Message>Mensagem recebida com sucesso!</Message></Response>');
+  }
+
 }

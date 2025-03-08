@@ -38,7 +38,6 @@ export class UserController {
       const user = await this.userService.findAllUsers();
       return user;
     } catch (error) {
-      console.log(error);
       throw new NotFoundException(error.message);
     }
   }

@@ -1,9 +1,100 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, Logger } from '@nestjs/common';
 import { Pool } from 'pg';
+import * as twilio from 'twilio';
+import { Twilio } from 'twilio';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class ContactService {
-  constructor(@Inject('PG_POOL') private readonly pool: Pool) {}
+  private twilioClient: Twilio | null = null;
+  private readonly logger = new Logger(ContactService.name);
+
+  constructor(
+    @Inject('PG_POOL') private readonly pool: Pool,
+    private readonly configService: ConfigService,
+  ) {
+    this.initTwilioClient();
+  }
+
+  private initTwilioClient() {
+    try {
+      const accountSid = this.configService.get<string>('TWILIO_ACCOUNT_SID');
+      const authToken = this.configService.get<string>('TWILIO_AUTH_TOKEN');
+
+      if (!authToken) {
+        this.logger.error('❌ TWILIO_AUTH_TOKEN is not set in environment variables');
+        return;
+      }
+
+      this.logger.debug('Initializing Twilio client with:', { 
+        accountSid, 
+        authTokenPresent: !!authToken,
+        authTokenLength: authToken?.length 
+      });
+
+      this.twilioClient = twilio(accountSid, authToken);
+      this.logger.log('✅ Twilio client initialized successfully');
+    } catch (error) {
+      this.logger.error('❌ Failed to initialize Twilio client:', error);
+    }
+  }
+
+  private formatPhoneNumberForWhatsApp(phoneNumber: string): string {
+    const cleaned = phoneNumber.replace(/\D/g, '');
+    return cleaned.startsWith('55') ? cleaned : `55${cleaned}`;
+  }
+
+  private async sendWhatsAppNotification(contactData: {
+    name: string;
+    email: string;
+    phone_number?: string;
+    event_location: string;
+    event_date: string;
+    event_type: string;
+    message: string;
+  }) {
+    if (!this.twilioClient) {
+      this.logger.warn('⚠️ Twilio client not initialized. Skipping WhatsApp notification.');
+      return;
+    }
+
+    try {
+      const from = 'whatsapp:+14155238886'; // Twilio's default sandbox number
+      const to = 'whatsapp:+' + this.formatPhoneNumberForWhatsApp(contactData.phone_number || '');
+
+      this.logger.log('📨 Sending WhatsApp message...', {
+        from,
+        to,
+        data: contactData
+      });
+
+      const message = await this.twilioClient.messages.create({
+        from,
+        to,
+        body: `📨 *Novo contato:*
+
+👤 *Nome:* ${contactData.name}
+📧 *E-mail:* ${contactData.email}
+📱 *Telefone:* ${contactData.phone_number}
+📍 *Local do Evento:* ${contactData.event_location}
+📅 *Data do Evento:* ${contactData.event_date}
+🎯 *Tipo de Evento:* ${contactData.event_type}
+
+💬 *Mensagem:*
+${contactData.message}`
+      });
+
+      this.logger.log(`✅ WhatsApp message sent successfully! SID: ${message.sid}`);
+      return message;
+    } catch (error) {
+      this.logger.error('❌ Failed to send WhatsApp notification:', error);
+      if (error.code === 20003) {
+        this.logger.error('Authentication failed. Please check your Twilio credentials.');
+      }
+      // Log but don't throw, so form submission can continue
+      return null;
+    }
+  }
 
   async createContact(contactData: {
     name: string;
@@ -21,8 +112,6 @@ export class ContactService {
       RETURNING id, name, email, created_at;
     `;
 
-    console.log('contactData:', contactData);
-
     const values = [
       contactData.name,
       contactData.email,
@@ -33,11 +122,11 @@ export class ContactService {
       contactData.message
     ];
 
-    console.log('values:', values);
-
     try {
       const result = await this.pool.query(query, values);
-      console.log('result:', result);
+      
+      // Enviar notificação WhatsApp após salvar no banco
+      await this.sendWhatsAppNotification(contactData);
       
       return {
         success: true,
