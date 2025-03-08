@@ -11,18 +11,24 @@ export class UserService {
   ) {}
 
   async createUser(createUserDto: CreateUserDto): Promise<void> {
+    console.log('[UserService] Creating new user:', { email: createUserDto.email });
     const user = await this.userRepository.findUserByEmail(createUserDto.email);
     if (user) {
+      console.log('[UserService] Email already exists:', createUserDto.email);
       throw new NotFoundException(`Email ${createUserDto.email} ja existe`);
     }
     await this.userRepository.createUser(createUserDto);
+    console.log('[UserService] User created successfully');
   }
 
   async findAllUsers(): Promise<any[]> {
+    console.log('[UserService] Fetching all users');
     const users = await this.userRepository.findAllUsers();
     if (!users.length) {
+      console.log('[UserService] No users found');
       throw new NotFoundException('Nenhum Usuário encontrado');
     }
+    console.log('[UserService] Found', users.length, 'users');
     return users;
   }
 
@@ -30,21 +36,27 @@ export class UserService {
     id_user: number,
     updateUserDto: UpdateUserDto,
   ): Promise<any> {
+    console.log('[UserService] Updating user:', { id_user, ...updateUserDto });
     const updatedUser = await this.userRepository.updateById(
       id_user,
       updateUserDto,
     );
     if (!updatedUser) {
+      console.log('[UserService] User not found:', id_user);
       throw new NotFoundException(`Usuário ${id_user} não encontrado`);
     }
+    console.log('[UserService] User updated successfully:', id_user);
     return updatedUser;
   }
 
   async DeleteUser(id_user: number): Promise<any> {
+    console.log('[UserService] Deleting user:', id_user);
     const user = await this.userRepository.deleteUser(id_user);
     if (!user) {
+      console.log('[UserService] User not found:', id_user);
       throw new Error(`Usuário ${id_user} não encontrado`);
     }
+    console.log('[UserService] User deleted successfully:', id_user);
     return user;
   }
 
