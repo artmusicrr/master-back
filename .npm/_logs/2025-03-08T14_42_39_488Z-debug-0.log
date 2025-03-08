@@ -1,0 +1,94 @@
+0 verbose cli /home/reg/.nvm/versions/node/v22.14.0/bin/node /home/reg/.nvm/versions/node/v22.14.0/bin/npm
+1 info using npm@10.9.2
+2 info using node@v22.14.0
+3 silly config load:file:/home/reg/.nvm/versions/node/v22.14.0/lib/node_modules/npm/npmrc
+4 silly config load:file:/home/reg/project/master-back/.npmrc
+5 silly config load:file:/home/reg/.npmrc
+6 silly config load:file:/home/reg/.nvm/versions/node/v22.14.0/etc/npmrc
+7 verbose title npm install @nestjs/core@latest @nestjs/common@latest @nestjs/platform-express@latest @nestjs/serve-static@latest
+8 verbose argv "install" "@nestjs/core@latest" "@nestjs/common@latest" "@nestjs/platform-express@latest" "@nestjs/serve-static@latest" "--save"
+9 verbose logfile logs-max:10 dir:/home/reg/.npm/_logs/2025-03-08T14_42_39_488Z-
+10 verbose logfile /home/reg/.npm/_logs/2025-03-08T14_42_39_488Z-debug-0.log
+11 silly logfile start cleaning logs, removing 1 files
+12 silly logfile done cleaning log files
+13 silly packumentCache heap:2102132736 maxSize:525533184 maxEntrySize:262766592
+14 silly packumentCache corgi:https://registry.npmjs.org/@nestjs%2fcore cache-miss
+15 silly packumentCache corgi:https://registry.npmjs.org/@nestjs%2fcommon cache-miss
+16 silly packumentCache corgi:https://registry.npmjs.org/@nestjs%2fplatform-express cache-miss
+17 silly packumentCache corgi:https://registry.npmjs.org/@nestjs%2fserve-static cache-miss
+18 http cache https://registry.npmjs.org/@nestjs%2fcommon 28ms (cache hit)
+19 silly packumentCache corgi:https://registry.npmjs.org/@nestjs%2fcommon set size:533609 disposed:false
+20 http cache https://registry.npmjs.org/@nestjs%2fcore 37ms (cache hit)
+21 silly packumentCache corgi:https://registry.npmjs.org/@nestjs%2fcore set size:608135 disposed:false
+22 http cache https://registry.npmjs.org/@nestjs%2fplatform-express 42ms (cache hit)
+23 silly packumentCache corgi:https://registry.npmjs.org/@nestjs%2fplatform-express set size:408465 disposed:false
+24 http cache https://registry.npmjs.org/@nestjs%2fserve-static 46ms (cache hit)
+25 silly packumentCache corgi:https://registry.npmjs.org/@nestjs%2fserve-static set size:37183 disposed:false
+26 silly idealTree buildDeps
+27 silly fetch manifest @nestjs/axios@^3.0.2
+28 silly packumentCache full:https://registry.npmjs.org/@nestjs%2faxios cache-miss
+29 http cache https://registry.npmjs.org/@nestjs%2faxios 7ms (cache hit)
+30 silly packumentCache full:https://registry.npmjs.org/@nestjs%2faxios set size:77239 disposed:false
+31 silly fetch manifest @nestjs/common@11.0.11
+32 silly packumentCache full:https://registry.npmjs.org/@nestjs%2fcommon cache-miss
+33 http cache https://registry.npmjs.org/@nestjs%2fcommon 8ms (cache hit)
+34 silly packumentCache full:https://registry.npmjs.org/@nestjs%2fcommon set size:836681 disposed:false
+35 silly fetch manifest @nestjs/common@^7.0.0 || ^8.0.0 || ^9.0.0 || ^10.0.0
+36 silly packumentCache full:https://registry.npmjs.org/@nestjs%2fcommon cache-hit
+37 silly fetch manifest class-transformer@^0.5.1
+38 silly packumentCache full:https://registry.npmjs.org/class-transformer cache-miss
+39 http cache https://registry.npmjs.org/class-transformer 5ms (cache hit)
+40 silly packumentCache full:https://registry.npmjs.org/class-transformer set size:106571 disposed:false
+41 silly fetch manifest class-validator@^0.14.1
+42 silly packumentCache full:https://registry.npmjs.org/class-validator cache-miss
+43 http cache https://registry.npmjs.org/class-validator 6ms (cache hit)
+44 silly packumentCache full:https://registry.npmjs.org/class-validator set size:376887 disposed:false
+45 silly fetch manifest reflect-metadata@^0.2.0
+46 silly packumentCache full:https://registry.npmjs.org/reflect-metadata cache-miss
+47 http cache https://registry.npmjs.org/reflect-metadata 5ms (cache hit)
+48 silly packumentCache full:https://registry.npmjs.org/reflect-metadata set size:61305 disposed:false
+49 silly fetch manifest rxjs@^7.8.1
+50 silly packumentCache full:https://registry.npmjs.org/rxjs cache-miss
+51 http cache https://registry.npmjs.org/rxjs 8ms (cache hit)
+52 silly packumentCache full:https://registry.npmjs.org/rxjs set size:980097 disposed:false
+53 verbose stack Error: unable to resolve dependency tree
+53 verbose stack     at #failPeerConflict (/home/reg/.nvm/versions/node/v22.14.0/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/arborist/build-ideal-tree.js:1363:25)
+53 verbose stack     at #loadPeerSet (/home/reg/.nvm/versions/node/v22.14.0/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/arborist/build-ideal-tree.js:1329:33)
+53 verbose stack     at async #buildDepStep (/home/reg/.nvm/versions/node/v22.14.0/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/arborist/build-ideal-tree.js:904:11)
+53 verbose stack     at async Arborist.buildIdealTree (/home/reg/.nvm/versions/node/v22.14.0/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/arborist/build-ideal-tree.js:181:7)
+53 verbose stack     at async Promise.all (index 1)
+53 verbose stack     at async Arborist.reify (/home/reg/.nvm/versions/node/v22.14.0/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/arborist/reify.js:131:5)
+53 verbose stack     at async Install.exec (/home/reg/.nvm/versions/node/v22.14.0/lib/node_modules/npm/lib/commands/install.js:150:5)
+53 verbose stack     at async Npm.exec (/home/reg/.nvm/versions/node/v22.14.0/lib/node_modules/npm/lib/npm.js:207:9)
+53 verbose stack     at async module.exports (/home/reg/.nvm/versions/node/v22.14.0/lib/node_modules/npm/lib/cli/entry.js:74:5)
+54 error code ERESOLVE
+55 error ERESOLVE unable to resolve dependency tree
+56 error
+57 error While resolving: master-back@0.0.1
+57 error Found: @nestjs/common@11.0.11[2m[22m
+57 error [2mnode_modules/@nestjs/common[22m
+57 error   @nestjs/common@"11.0.11" from the root project
+57 error
+57 error Could not resolve dependency:
+57 error [95mpeer[39m @nestjs/common@"^7.0.0 || ^8.0.0 || ^9.0.0 || ^10.0.0" from @nestjs/axios@3.1.3[2m[22m
+57 error [2mnode_modules/@nestjs/axios[22m
+57 error   @nestjs/axios@"^3.0.2" from the root project
+57 error
+57 error Fix the upstream dependency conflict, or retry
+57 error this command with --force or --legacy-peer-deps
+57 error to accept an incorrect (and potentially broken) dependency resolution.
+58 error
+58 error
+58 error For a full report see:
+58 error /home/reg/.npm/_logs/2025-03-08T14_42_39_488Z-eresolve-report.txt
+59 silly unfinished npm timer reify 1741444959872
+60 silly unfinished npm timer reify:loadTrees 1741444959873
+61 silly unfinished npm timer idealTree:buildDeps 1741444959947
+62 silly unfinished npm timer idealTree:#root 1741444959948
+63 verbose cwd /home/reg/project/master-back
+64 verbose os Linux 6.8.0-1025-gcp
+65 verbose node v22.14.0
+66 verbose npm  v10.9.2
+67 verbose exit 1
+68 verbose code 1
+69 error A complete log of this run can be found in: /home/reg/.npm/_logs/2025-03-08T14_42_39_488Z-debug-0.log

@@ -1,0 +1,45 @@
+0 verbose cli /home/reg/.nvm/versions/node/v22.14.0/bin/node /home/reg/.nvm/versions/node/v22.14.0/bin/npm
+1 info using npm@10.9.2
+2 info using node@v22.14.0
+3 silly config load:file:/home/reg/.nvm/versions/node/v22.14.0/lib/node_modules/npm/npmrc
+4 silly config load:file:/home/reg/project/master-back/.npmrc
+5 silly config load:file:/home/reg/.npmrc
+6 silly config load:file:/home/reg/.nvm/versions/node/v22.14.0/etc/npmrc
+7 verbose title npm install @nestjs/serve-static@4.2.0
+8 verbose argv "install" "@nestjs/serve-static@4.2.0" "--save"
+9 verbose logfile logs-max:10 dir:/home/reg/.npm/_logs/2025-03-08T14_44_15_176Z-
+10 verbose logfile /home/reg/.npm/_logs/2025-03-08T14_44_15_176Z-debug-0.log
+11 silly logfile start cleaning logs, removing 1 files
+12 silly logfile done cleaning log files
+13 silly packumentCache heap:2102132736 maxSize:525533184 maxEntrySize:262766592
+14 silly idealTree buildDeps
+15 silly fetch manifest @nestjs/serve-static@4.2.0
+16 silly packumentCache full:https://registry.npmjs.org/@nestjs%2fserve-static cache-miss
+17 http cache https://registry.npmjs.org/@nestjs%2fserve-static 413ms (cache hit)
+18 silly packumentCache full:https://registry.npmjs.org/@nestjs%2fserve-static set size:70399 disposed:false
+19 silly placeDep ROOT @nestjs/serve-static@ OK for: master-back@0.0.1 want: 4.2.0
+20 verbose type version
+21 verbose stack @nestjs/serve-static: No matching version found for @nestjs/serve-static@4.2.0.
+21 verbose stack     at module.exports (/home/reg/.nvm/versions/node/v22.14.0/lib/node_modules/npm/node_modules/npm-pick-manifest/lib/index.js:215:23)
+21 verbose stack     at RegistryFetcher.manifest (/home/reg/.nvm/versions/node/v22.14.0/lib/node_modules/npm/node_modules/pacote/lib/registry.js:130:54)
+21 verbose stack     at async #fetchManifest (/home/reg/.nvm/versions/node/v22.14.0/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/arborist/build-ideal-tree.js:1202:20)
+21 verbose stack     at async #nodeFromEdge (/home/reg/.nvm/versions/node/v22.14.0/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/arborist/build-ideal-tree.js:1040:19)
+21 verbose stack     at async #buildDepStep (/home/reg/.nvm/versions/node/v22.14.0/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/arborist/build-ideal-tree.js:904:11)
+21 verbose stack     at async Arborist.buildIdealTree (/home/reg/.nvm/versions/node/v22.14.0/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/arborist/build-ideal-tree.js:181:7)
+21 verbose stack     at async Promise.all (index 1)
+21 verbose stack     at async Arborist.reify (/home/reg/.nvm/versions/node/v22.14.0/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/arborist/reify.js:131:5)
+21 verbose stack     at async Install.exec (/home/reg/.nvm/versions/node/v22.14.0/lib/node_modules/npm/lib/commands/install.js:150:5)
+21 verbose stack     at async Npm.exec (/home/reg/.nvm/versions/node/v22.14.0/lib/node_modules/npm/lib/npm.js:207:9)
+22 error code ETARGET
+23 error notarget No matching version found for @nestjs/serve-static@4.2.0.
+24 error notarget In most cases you or one of your dependencies are requesting
+24 error notarget a package version that doesn't exist.
+25 silly unfinished npm timer reify 1741445055540
+26 silly unfinished npm timer reify:loadTrees 1741445055541
+27 verbose cwd /home/reg/project/master-back
+28 verbose os Linux 6.8.0-1025-gcp
+29 verbose node v22.14.0
+30 verbose npm  v10.9.2
+31 verbose exit 1
+32 verbose code 1
+33 error A complete log of this run can be found in: /home/reg/.npm/_logs/2025-03-08T14_44_15_176Z-debug-0.log
