@@ -4,6 +4,8 @@ import {
   IsOptional,
   IsString,
   MinLength,
+  IsBoolean,
+  Transform,
 } from 'class-validator';
 
 export class CreateUserDto {
@@ -19,6 +21,16 @@ export class CreateUserDto {
   @IsString({ message: 'Senha deve ser uma string' })
   @MinLength(8, { message: 'Senha deve ter pelo menos 8 caracteres' })
   password: string;
+
+  @IsOptional()
+  @Transform(({ value }) => {
+    if (typeof value === 'string') {
+      return value.toLowerCase() === 'true';
+    }
+    return value;
+  })
+  @IsBoolean()
+  flag_active?: boolean = true;
 }
 
 export class UpdateUserDto {

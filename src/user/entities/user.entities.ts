@@ -11,10 +11,11 @@ export class UserRepository {
   async createUser(request: CreateUserDto): Promise<void> {
     try {
       console.log('[UserRepository] Creating user:', { email: request.email });
-      const { name, email, password } = request;
+      const { name, email, password, flag_active } = request;
       const hashedPassword = bcrypt.hashSync(password, 8);
-      const query = `INSERT INTO public.users (name, email, password, registration_date) VALUES ($1, $2, $3, NOW())`;
-      await this.db.query(query, [name, email, hashedPassword]);
+      const query = `INSERT INTO public.users (name, email, password, registration_date, flag_active) 
+                     VALUES ($1, $2, $3, NOW(), $4)`;
+      await this.db.query(query, [name, email, hashedPassword, flag_active]);
       console.log('[UserRepository] User created successfully');
     } catch (error: any) {
       console.error('[UserRepository] Error creating user:', error.message);
