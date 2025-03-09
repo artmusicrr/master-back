@@ -5,8 +5,8 @@ import {
   IsString,
   MinLength,
   IsBoolean,
-  Transform,
 } from 'class-validator';
+import { Transform } from 'class-transformer';
 
 export class CreateUserDto {
   @IsNotEmpty({ message: 'O nome é obrigatório' })
